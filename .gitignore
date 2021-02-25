@@ -24,10 +24,9 @@ Makefile
 sopwith
 
 *.obj
-msvc/Debug
+msvc/Win32
 msvc/x64
 *.ncb
-*.sln
 *.suo
 *.user
 
