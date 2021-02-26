@@ -1,4 +1,4 @@
-![Windows 10 Screenshot](https://github.com/ilookha/sopwith/raw/main/screenshot_win10.png)
+![Windows 10 Screenshot](https://github.com/ilookha/sopwith/raw/master/screenshot_win10.png)
 
   This is a port of the game "Sopwith", which was originally by 
   BMB CompuScience Canada. The original author David L. Clark
