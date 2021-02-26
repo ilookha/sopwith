@@ -1,31 +1,32 @@
+![Windows 10 Screenshot](https://github.com/ilookha/sopwith/raw/main/screenshot_win10.png)
 
   This is a port of the game "Sopwith", which was originally by 
   BMB CompuScience Canada. The original author David L. Clark
   has kindly released the sourcecode under the GNU GPL.
 
-Features
+# Features
 
-     * Uses SDL, so will run on most modern operating systems
-     * (in progress) GNOME port
-     * Pseudo-functional networking
-     * PC speaker emulation!
+* Uses SDL, so will run on most modern operating systems
+* (in progress) GNOME port
+* Pseudo-functional networking
+* PC speaker emulation!
 
-More Info
+# More Info
 
   More information about sopwith is available in some of the files
   included here:
   
-     AUTHORS - People responsible for this
-     COPYING - License information (GNU GPL)
-     FAQ - Frequently asked questions about SDL Sopwith
-     NEWS - Whats new, ChangeLog
-     TODO - a sneak peek at possible future features
+* AUTHORS - People responsible for this
+* COPYING - License information (GNU GPL)
+* FAQ - Frequently asked questions about SDL Sopwith
+* NEWS - Whats new, ChangeLog
+* TODO - a sneak peek at possible future features
 
   You can find lots of information about sopwith the game at:
 
      http://www.sopwith.org/
 
-Feedback
+# Feedback
 
   If you like SDL Sopwith, email me and let me know!
 
