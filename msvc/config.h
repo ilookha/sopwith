@@ -20,8 +20,7 @@
 
 /* version */
 
-#define VERSION "x"
-#define PACKAGE_VERSION "1.8.x"
+#define PACKAGE_VERSION "1.8.1"
 #define PACKAGE_STRING "SDL Sopwith " PACKAGE_VERSION
 
 #define stricmp _stricmp
