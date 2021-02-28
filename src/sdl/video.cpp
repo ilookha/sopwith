@@ -131,7 +131,7 @@ static void Vid_SetMode()
 {
 	int n;
 	int w, h;
-	int flags = 0;
+	int flags = SDL_WINDOW_RESIZABLE;
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
@@ -171,7 +171,7 @@ static void Vid_SetMode()
 	for (n = 0; n < NUM_KEYS; ++n)
 		keysdown[n] = 0;
 
-	SDL_ShowCursor(0);
+	SDL_ShowCursor(vid_fullscreen ? 0 : 1);
 }
 
 void Vid_Shutdown(void)
@@ -330,6 +330,18 @@ static void getevents()
 				if (translated)
 					keysdown[translated] &= ~1;
 			}
+			break;
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+			case SDL_WINDOWEVENT_RESIZED:
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			case SDL_WINDOWEVENT_RESTORED:
+				Vid_Update();
+			}
+			break;
+		case SDL_QUIT:
+			exit(0);
 			break;
 		}
 	}
