@@ -15,85 +15,85 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\sdl\main.c">
+    <ClCompile Include="..\src\sdl\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\sdl\pcsound.c">
+    <ClCompile Include="..\src\sdl\pcsound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swasynio.c">
+    <ClCompile Include="..\src\sdl\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swauto.c">
+    <ClCompile Include="..\src\sdl\video.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swcollsn.c">
+    <ClCompile Include="..\src\swasynio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swconf.c">
+    <ClCompile Include="..\src\swauto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swdisp.c">
+    <ClCompile Include="..\src\swcollsn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swend.c">
+    <ClCompile Include="..\src\swconf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swgames.c">
+    <ClCompile Include="..\src\swdisp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swground.c">
+    <ClCompile Include="..\src\swend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swgrpha.c">
+    <ClCompile Include="..\src\swgames.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swinit.c">
+    <ClCompile Include="..\src\swground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swmain.c">
+    <ClCompile Include="..\src\swgrpha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swmove.c">
+    <ClCompile Include="..\src\swinit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swobject.c">
+    <ClCompile Include="..\src\swmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swsound.c">
+    <ClCompile Include="..\src\swmove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swsplat.c">
+    <ClCompile Include="..\src\swobject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swstbar.c">
+    <ClCompile Include="..\src\swsound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swsymbol.c">
+    <ClCompile Include="..\src\swsplat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swtext.c">
+    <ClCompile Include="..\src\swstbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swtitle.c">
+    <ClCompile Include="..\src\swsymbol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\swutil.c">
+    <ClCompile Include="..\src\swtext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\tcpcomm.c">
+    <ClCompile Include="..\src\swtitle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\sdl\timer.c">
+    <ClCompile Include="..\src\swutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\vid_vga.c">
+    <ClCompile Include="..\src\tcpcomm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\video.c">
+    <ClCompile Include="..\src\video.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\sdl\video.c">
+    <ClCompile Include="..\src\vid_vga.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
