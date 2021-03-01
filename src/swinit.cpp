@@ -988,7 +988,7 @@ void swrestart()
 			inc += 25;
 			ob->ob_score.score += inc;
 
-			Vid_Update();
+			Vid_Present();
 			
 			// sdh 27/10/2001: use new time code for delay
 

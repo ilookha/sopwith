@@ -215,13 +215,13 @@ static void tcploop_connect()
 	swputs("  Attempting to connect to\n  ");
 	swputs(asynhost);
 	swputs(" ...");
-	Vid_Update();
+	Vid_Present();
 	
 	commconnect(asynhost);
 
 	clrprmpt();
 	swputs("  Connected, waiting for other player\n");
-	Vid_Update();
+	Vid_Present();
 
 	// for the first 5 seconds, listen to see if theres another player 
 	// there
@@ -294,7 +294,7 @@ static void asyninit()
 		swtitln();
 		clrprmpt();
 		swputs("  Listening for connection...");
-		Vid_Update();
+		Vid_Present();
 		commlisten();
 		player = 0;
 	} else if (asynmode == ASYN_CONNECT) {
@@ -303,7 +303,7 @@ static void asyninit()
 		swputs("  Attempting to connect to \n  ");
 		swputs(asynhost);
 		swputs(" ...");
-		Vid_Update();
+		Vid_Present();
 		commconnect(asynhost);
 		player = 1;
 	} else {

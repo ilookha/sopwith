@@ -90,7 +90,7 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 	return surface;
 }
 
-void Vid_Update()
+void Vid_Present()
 {
 	SDL_Surface *screen = NULL;
 
@@ -224,7 +224,7 @@ void Vid_Reset()
 
 	// need to redraw buffer to screen
 
-	Vid_Update();
+	Vid_Present();
 }
 
 static int input_buffer[128];
@@ -337,7 +337,7 @@ static void getevents()
 			case SDL_WINDOWEVENT_RESIZED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
 			case SDL_WINDOWEVENT_RESTORED:
-				Vid_Update();
+				Vid_Present();
 			}
 			break;
 		case SDL_QUIT:

@@ -285,7 +285,7 @@ void setconfig()
 		swposcur(1, 22);
 		swputs("   ESC - Exit Menu");
 
-		Vid_Update();
+		Vid_Present();
 
 		if (ctlbreak())
 			swend(NULL, false);

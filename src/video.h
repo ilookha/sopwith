@@ -67,7 +67,7 @@ extern void Vid_Reset();
 
 // update screen
 
-extern void Vid_Update();
+extern void Vid_Present();
 
 extern bool Vid_GetCtrlBreak();
 

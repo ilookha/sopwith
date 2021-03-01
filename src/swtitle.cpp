@@ -196,7 +196,7 @@ static bool getnet()
 		swputs("     C - connect to remote host\n");
 		swputs("     T - connect to TCP loop\n");
 
-		Vid_Update();
+		Vid_Present();
 
 		swsndupdate();
 
@@ -250,7 +250,7 @@ static void getkey()
 	swputs("Key: K - Keyboard Only\n");
 	swputs("     J - Joystick and Keyboard\n");
 
-	Vid_Update();
+	Vid_Present();
 
 	for (;;) {
 		swsndupdate();
@@ -293,7 +293,7 @@ static bool getskill()
 		swputs("Key: N - novice player\n");
 		swputs("     E - expert player\n");
 
-		Vid_Update();
+		Vid_Present();
 
 		swsndupdate();
 		if (ctlbreak())
@@ -327,7 +327,7 @@ void getgamemode()
 #endif
 		swputs("     O - game options\n");
 		swputs("     Q - quit game\n");
-		Vid_Update();
+		Vid_Present();
 
 		if (ctlbreak())
 			swend(NULL, false);

@@ -122,7 +122,7 @@ void swgets(char *s, int max)
 		cur_y = or_y;
 		erase_len = (int)strlen(s);
 		swputs(s);
-		Vid_Update();
+		Vid_Present();
 
 		// read next keypress
 

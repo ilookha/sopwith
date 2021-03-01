@@ -200,7 +200,7 @@ void swdisp()
 	// need to update the screen as we arent writing
 	// directly into vram any more
 
-	Vid_Update();
+	Vid_Present();
 }
 
 
