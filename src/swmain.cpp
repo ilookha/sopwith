@@ -286,7 +286,7 @@ int swmain(int argc, char *argv[])
 
 		// sdh 15/11/2001: dont thrash the 
 		// processor while waiting
-		Timer_Sleep(10);
+		Timer_Sleep(1);
 	}
 
 	return 0;

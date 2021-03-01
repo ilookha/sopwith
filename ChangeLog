@@ -1,3 +1,13 @@
+v1.8.2
+* Fixed title music being much slower than it should.
+* Game output maintains its 16:10 aspect ratio when resizing the window.
+* MSVC: switched to static CRT libraries, to avoid making an installer or
+  forcing users to find these DLLs by themselves.
+
+v1.8.1
+* Upgraded MSVC solution to VS2019
+* Made the window resizeable and closeable
+
 v1.7.1
 
 Fix some compilation errors due to an error in swinit.c
