@@ -54,6 +54,7 @@ extern unsigned int vid_pitch;
 static int ctrlbreak = 0;
 static bool initted = 0;
 static SDL_Window *window = NULL;
+static SDL_Rect windowRect;
 static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
 static SDL_Surface *tmpsutface = NULL;
 static SDL_Palette *palette;
@@ -100,13 +101,39 @@ void Vid_Present()
 	screen = SDL_GetWindowSurface(window);
 	SDL_UnlockSurface(screenbuf);
 	if(0 != SDL_BlitSurface(screenbuf, NULL, tmpsutface, NULL)) {
-		printf("SDL_SetSurfacePalette failed: %s\n", SDL_GetError());
+		printf("SDL_BlitSurface failed: %s\n", SDL_GetError());
 	}
-	if(0 != SDL_BlitScaled(tmpsutface, NULL, screen, NULL)) {
-		printf("SDL_SetSurfacePalette failed: %s\n", SDL_GetError());
+	if(0 != SDL_BlitScaled(tmpsutface, NULL, screen, &windowRect)) {
+		printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
 	}
 	SDL_LockSurface(screenbuf);
 	SDL_UpdateWindowSurface(window);
+}
+
+/** Ensure the otput rectangle has correct aspect ratio. */
+void Vid_EnsureAspectRatio()
+{
+	SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
+	windowRect = windowSurface->clip_rect;
+	if (windowRect.w < windowRect.h * SCR_WDTH / SCR_HGHT)
+	{
+		// Window too narrow: adjust output height
+		windowRect.h = windowRect.w * SCR_HGHT / SCR_WDTH;
+		windowRect.y = (windowSurface->clip_rect.h - windowRect.h) / 2;
+	}
+	else if (windowRect.w > windowRect.h * SCR_WDTH / SCR_HGHT)
+	{
+		// Window too wide: adjust output width
+		windowRect.w = windowRect.h * SCR_WDTH / SCR_HGHT;
+		windowRect.x = (windowSurface->clip_rect.w - windowRect.w) / 2;
+	}
+}
+
+/** Fill the output window with black color. */
+void Vid_ClearOutputWindow()
+{
+	SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
+	SDL_FillRect(windowSurface, nullptr, 0);
 }
 
 static void set_icon(sopsym_t *sym)
@@ -172,6 +199,9 @@ static void Vid_SetMode()
 		keysdown[n] = 0;
 
 	SDL_ShowCursor(vid_fullscreen ? 0 : 1);
+
+	Vid_ClearOutputWindow();
+	Vid_EnsureAspectRatio();
 }
 
 void Vid_Shutdown(void)
@@ -337,6 +367,8 @@ static void getevents()
 			case SDL_WINDOWEVENT_RESIZED:
 			case SDL_WINDOWEVENT_MAXIMIZED:
 			case SDL_WINDOWEVENT_RESTORED:
+				Vid_ClearOutputWindow();
+				Vid_EnsureAspectRatio();
 				Vid_Present();
 			}
 			break;
