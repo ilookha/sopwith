@@ -702,7 +702,7 @@ void initexpl(OBJECTS * obop, int small)
 		speed = gminspeed;
 	} else {
 		ic = small ? 6 : 2;
-		speed = gminspeed >> ((explseed & 7) != 7);
+		speed = gminspeed >> ((explseed & 7) == 7 ? 0 : 1);
 	}
 	mansym = obotype == PLANE 
 		 && (obo->ob_state == FLYING || obo->ob_state == WOUNDED);

@@ -112,8 +112,8 @@
       <TypeLibraryName>$(IntDir)sopwith.tlb</TypeLibraryName>
       <HeaderFileName>sopwith.h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>sopwith_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>sopwith_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>sopwith_i.cpp</InterfaceIdentifierFileName>
+      <ProxyFileName>sopwith_p.cpp</ProxyFileName>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -153,8 +153,8 @@
       <TypeLibraryName>$(IntDir)sopwith.tlb</TypeLibraryName>
       <HeaderFileName>sopwith.h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>sopwith_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>sopwith_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>sopwith_i.cpp</InterfaceIdentifierFileName>
+      <ProxyFileName>sopwith_p.cpp</ProxyFileName>
     </Midl>
     <ClCompile>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -195,8 +195,8 @@
       <TypeLibraryName>$(IntDir)sopwith.tlb</TypeLibraryName>
       <HeaderFileName>sopwith.h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>sopwith_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>sopwith_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>sopwith_i.cpp</InterfaceIdentifierFileName>
+      <ProxyFileName>sopwith_p.cpp</ProxyFileName>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -236,8 +236,8 @@
       <TypeLibraryName>$(IntDir)sopwith.tlb</TypeLibraryName>
       <HeaderFileName>sopwith.h</HeaderFileName>
       <DllDataFileName />
-      <InterfaceIdentifierFileName>sopwith_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>sopwith_p.c</ProxyFileName>
+      <InterfaceIdentifierFileName>sopwith_i.cpp</InterfaceIdentifierFileName>
+      <ProxyFileName>sopwith_p.cpp</ProxyFileName>
     </Midl>
     <ClCompile>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -270,38 +270,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\sdl\main.c" />
-    <ClCompile Include="..\src\sdl\pcsound.c" />
-    <ClCompile Include="..\src\sdl\timer.c" />
-    <ClCompile Include="..\src\sdl\video.c">
+    <ClCompile Include="..\src\sdl\main.cpp" />
+    <ClCompile Include="..\src\sdl\pcsound.cpp" />
+    <ClCompile Include="..\src\sdl\timer.cpp" />
+    <ClCompile Include="..\src\sdl\video.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\src\swasynio.c" />
-    <ClCompile Include="..\src\swauto.c" />
-    <ClCompile Include="..\src\swcollsn.c" />
-    <ClCompile Include="..\src\swconf.c" />
-    <ClCompile Include="..\src\swdisp.c" />
-    <ClCompile Include="..\src\swend.c" />
-    <ClCompile Include="..\src\swgames.c" />
-    <ClCompile Include="..\src\swground.c" />
-    <ClCompile Include="..\src\swgrpha.c" />
-    <ClCompile Include="..\src\swinit.c" />
-    <ClCompile Include="..\src\swmain.c" />
-    <ClCompile Include="..\src\swmove.c" />
-    <ClCompile Include="..\src\swobject.c" />
-    <ClCompile Include="..\src\swsound.c" />
-    <ClCompile Include="..\src\swsplat.c" />
-    <ClCompile Include="..\src\swstbar.c" />
-    <ClCompile Include="..\src\swsymbol.c" />
-    <ClCompile Include="..\src\swtext.c" />
-    <ClCompile Include="..\src\swtitle.c" />
-    <ClCompile Include="..\src\swutil.c" />
-    <ClCompile Include="..\src\tcpcomm.c" />
-    <ClCompile Include="..\src\video.c" />
-    <ClCompile Include="..\src\vid_vga.c" />
+    <ClCompile Include="..\src\swasynio.cpp" />
+    <ClCompile Include="..\src\swauto.cpp" />
+    <ClCompile Include="..\src\swcollsn.cpp" />
+    <ClCompile Include="..\src\swconf.cpp" />
+    <ClCompile Include="..\src\swdisp.cpp" />
+    <ClCompile Include="..\src\swend.cpp" />
+    <ClCompile Include="..\src\swgames.cpp" />
+    <ClCompile Include="..\src\swground.cpp" />
+    <ClCompile Include="..\src\swgrpha.cpp" />
+    <ClCompile Include="..\src\swinit.cpp" />
+    <ClCompile Include="..\src\swmain.cpp" />
+    <ClCompile Include="..\src\swmove.cpp" />
+    <ClCompile Include="..\src\swobject.cpp" />
+    <ClCompile Include="..\src\swsound.cpp" />
+    <ClCompile Include="..\src\swsplat.cpp" />
+    <ClCompile Include="..\src\swstbar.cpp" />
+    <ClCompile Include="..\src\swsymbol.cpp" />
+    <ClCompile Include="..\src\swtext.cpp" />
+    <ClCompile Include="..\src\swtitle.cpp" />
+    <ClCompile Include="..\src\swutil.cpp" />
+    <ClCompile Include="..\src\tcpcomm.cpp" />
+    <ClCompile Include="..\src\video.cpp" />
+    <ClCompile Include="..\src\vid_vga.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\font.h" />
