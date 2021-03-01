@@ -188,7 +188,7 @@ int swgetc()
 		// sdh 15/11/2001: dont thrash the processor while 
 		// waiting for a key press
 
-		Timer_Sleep(100);
+		Timer_Sleep(1);
 
 		swsndupdate();
 		if (ctlbreak())

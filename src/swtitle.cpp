@@ -329,6 +329,7 @@ void getgamemode()
 		swputs("     Q - quit game\n");
 		Vid_Present();
 
+		swsndupdate();
 		if (ctlbreak())
 			swend(NULL, false);
 

@@ -49,6 +49,7 @@ static inline float square_wave(float time)
 }
 
 // callback function to generate sound
+// invoked every NUM_SAMPLES / FREQ seconds, which is around 46ms
 
 static void snd_callback(void *userdata, Uint8 * stream, int len)
 {

@@ -97,6 +97,11 @@ static void chomp(char *s)
 	for (p=s; isspace(*p); ++p);
 	strcpy(s, p);
 
+	if (*s == 0)
+	{
+		return;
+	}
+
 	for (p=s+strlen(s)-1; isspace(*p) && p > s; --p)
 		*p = '\0';
 }
