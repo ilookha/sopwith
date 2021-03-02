@@ -9,8 +9,8 @@ EXTRA_PROGRAMS = sopwith gtksopwith
 
 COMMON_SOURCES =       \
 video.h       swcollsn.cpp  swgames.h     swmain.h      swutil.h                \
-font.h        swcollsn.h    swground.cpp  swtext.cpp    tcpcomm.cpp             \
-pcsound.h     swconf.cpp    swground.h    swtext.h      swsound.cpp   tcpcomm.h \
+font.h        swcollsn.h    swground.cpp  swtext.cpp                            \
+pcsound.h     swconf.cpp    swground.h    swtext.h      swsound.cpp             \
 std.h         swconf.h      swgrpha.cpp   swmove.cpp    swsound.h     timer.h   \
 sw.h          swdisp.cpp    swgrpha.h     swmove.h      swsymbol.cpp            \
 swasynio.cpp  swdisp.h      swinit.cpp    swsymbol.h                            \

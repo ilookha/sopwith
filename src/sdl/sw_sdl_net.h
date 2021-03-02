@@ -18,10 +18,10 @@
 
 #pragma once
 
-/** Connect to the host, fail immediately if no connection could be made. */
-void swNetInitConnect(char const* host);
-/** Block and listen for incoming connections, until a client connection is established. */
-void swNetInitHost();
+/** Connect to the host, fail immediately if no connection could be made. Return success. */
+bool swNetInitConnect(char const* host);
+/** Block and listen for incoming connections, until a client connection is established. Return success. */
+bool swNetInitHost();
 
 /** Receive a single byte. Return -1 if no data was received (no client connection on the server), or the number of bytes received (1) otherwise. */
 int swNetReceive();

@@ -288,7 +288,7 @@ static void tcploop_connect()
 
 // setup connection
 
-static void asyninit()
+static bool asyninit()
 {
 	if (asynmode == ASYN_TCPLOOP) {
 		tcploop_connect();
@@ -297,7 +297,10 @@ static void asyninit()
 		clrprmpt();
 		swputs("  Listening for connection...");
 		Vid_Present();
-		swNetInitHost();
+		if (!swNetInitHost())
+		{
+			return false;
+		}
 		player = 0;
 	} else if (asynmode == ASYN_CONNECT) {
 		swtitln();
@@ -306,12 +309,17 @@ static void asyninit()
 		swputs(asynhost);
 		swputs(" ...");
 		Vid_Present();
-		swNetInitConnect(asynhost);
+		if (!swNetInitConnect(asynhost))
+		{
+			return false;
+		}
 		player = 1;
 	} else {
 		fprintf(stderr, "unknown asynmode mode\n");
-		exit(-1);
+		return false;
 	}
+
+	return true;
 }
 
 #endif
@@ -322,7 +330,10 @@ bool init1asy()
 	fprintf(stderr, "TCP/IP support not compiled into binary!\n");
 	return;
 #else
-	asyninit();
+	if (!asyninit())
+	{
+		return false;
+	}
 	clrprmpt();
 	swputs("        Waiting for other player");
 	if (!synchronize())
