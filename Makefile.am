@@ -7,7 +7,7 @@ AUX_DIST_GEN =                          \
 
 # extra distributed MSVC build files
 MSVC_DIST= \
-	msvc/README  msvc/config.h msvc/sopwith.vcproj
+	msvc/README  msvc/config.h msvc/sopwith.vcxproj msvc/sopwith.vcxproj.filters msvc/sopwith.sln
 
 EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST)
 

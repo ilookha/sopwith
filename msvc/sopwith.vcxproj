@@ -132,7 +132,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)sopwith.exe</OutputFile>
       <MergedIDLBaseFileName>_sopwith.idl</MergedIDLBaseFileName>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -172,7 +172,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)sopwith.exe</OutputFile>
       <MergedIDLBaseFileName>_sopwith.idl</MergedIDLBaseFileName>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -214,7 +214,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)sopwith.exe</OutputFile>
       <MergedIDLBaseFileName>_sopwith.idl</MergedIDLBaseFileName>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -254,7 +254,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)sopwith.exe</OutputFile>
       <MergedIDLBaseFileName>_sopwith.idl</MergedIDLBaseFileName>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -270,6 +270,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\sdl\main.cpp" />
     <ClCompile Include="..\src\sdl\pcsound.cpp" />
+    <ClCompile Include="..\src\sdl\sw_sdl_net.cpp" />
     <ClCompile Include="..\src\sdl\timer.cpp" />
     <ClCompile Include="..\src\sdl\video.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
@@ -297,13 +298,13 @@
     <ClCompile Include="..\src\swtext.cpp" />
     <ClCompile Include="..\src\swtitle.cpp" />
     <ClCompile Include="..\src\swutil.cpp" />
-    <ClCompile Include="..\src\tcpcomm.cpp" />
     <ClCompile Include="..\src\video.cpp" />
     <ClCompile Include="..\src\vid_vga.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\font.h" />
     <ClInclude Include="..\src\pcsound.h" />
+    <ClInclude Include="..\src\sdl\sw_sdl_net.h" />
     <ClInclude Include="..\src\std.h" />
     <ClInclude Include="..\src\sw.h" />
     <ClInclude Include="..\src\swasynio.h" />
@@ -326,7 +327,6 @@
     <ClInclude Include="..\src\swtext.h" />
     <ClInclude Include="..\src\swtitle.h" />
     <ClInclude Include="..\src\swutil.h" />
-    <ClInclude Include="..\src\tcpcomm.h" />
     <ClInclude Include="..\src\timer.h" />
     <ClInclude Include="..\src\video.h" />
     <ClInclude Include="config.h" />

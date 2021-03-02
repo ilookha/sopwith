@@ -25,7 +25,7 @@
 
 #include <ctype.h>
 
-#include "tcpcomm.h"
+#include "sdl/sw_sdl_net.h"
 #include "timer.h"
 #include "video.h"
 
@@ -44,7 +44,7 @@
 asynmode_t asynmode;
 char asynhost[128];
 
-#define TIMEOUT_LEN_MS 5000 	/* time out after 5 seconds */
+#define TIMEOUT_LEN_MS 5*1000 	/* time out after 5 seconds */
 
 static int timeout_time;
 
@@ -60,22 +60,22 @@ static bool timeout()
 
 static inline void sendshort(int s)
 {
-	commout(s & 0xff);
-	commout((s >> 8) & 0xff);
+	swNetSend(s & 0xff);
+	swNetSend((s >> 8) & 0xff);
 }
 
 static inline int try_readshort()
 {
 	int s, t;
 
-	s = commin();
+	s = swNetReceive();
 
 	if (s < 0)
 		return -1;
 
 	settimeout();
 
-	while ((t = commin()) < 0) {
+	while ((t = swNetReceive()) < 0) {
 		if (timeout()) {
 			fprintf(stderr, "readshort: timeout on read\n");
 			exit(-1);
@@ -112,7 +112,7 @@ void asynput(int movekey)
 
 char *asynclos(bool update)
 {
-	commterm();
+	swNetShutdown();
 	return NULL;
 }
 
@@ -140,7 +140,7 @@ void asynupdate(void)
 
 #define PROTOHEADER PACKAGE_STRING
 
-static void synchronize()
+static bool synchronize()
 {
 	// check for header
 
@@ -153,7 +153,7 @@ static void synchronize()
 	sprintf(buf, PROTOHEADER "%i", player);
 
 	for (p = buf; *p; ++p)
-		commout(*p);
+		swNetSend(*p);
 
 	// now listen for response
 
@@ -167,18 +167,18 @@ static void synchronize()
 		if (timeout()) {
 			fprintf(stderr,
 				"synchronize: timeout on connect\n");
-			exit(-1);
+			return false;
 		}
 
-		c = commin();
+		c = swNetReceive();
 
 		if (c >= 0) {
 			if (c == *p) {
 				++p;
 			} else {
 				fprintf(stderr,
-					"synchronize: invalid protocol header received!\n");
-				exit(-1);
+					"synchronize: invalid protocol header received (%c instead of %c)!\n", c, *p);
+				return false;
 			}
 		}
 	}
@@ -203,6 +203,8 @@ static void synchronize()
 		sendshort(conf_wounded);
 		sendshort(conf_animals);
 	}
+
+	return true;
 }
 
 // setup tcp loop
@@ -217,7 +219,7 @@ static void tcploop_connect()
 	swputs(" ...");
 	Vid_Present();
 	
-	commconnect(asynhost);
+	swNetInitConnect(asynhost);
 
 	clrprmpt();
 	swputs("  Connected, waiting for other player\n");
@@ -234,11 +236,11 @@ static void tcploop_connect()
 			exit(-1);
 		}
 		
-		c = commin();
+		c = swNetReceive();
 
 		if (c >= 0) {
 			if (c == '?') {
-				commout('!');
+				swNetSend('!');
 				player = 1;
 				return;
 			} else {
@@ -262,7 +264,7 @@ static void tcploop_connect()
 			exit(-1);
 		}
 
-		c = commin();
+		c = swNetReceive();
 
 		if (c >= 0) {
 			if (c == '!') {
@@ -278,7 +280,7 @@ static void tcploop_connect()
 	
 
 		if (Timer_GetMS() > time) {
-			commout('?');
+			swNetSend('?');
 			time = Timer_GetMS() + 1000;
 		}
 	}
@@ -295,7 +297,7 @@ static void asyninit()
 		clrprmpt();
 		swputs("  Listening for connection...");
 		Vid_Present();
-		commlisten();
+		swNetInitHost();
 		player = 0;
 	} else if (asynmode == ASYN_CONNECT) {
 		swtitln();
@@ -304,7 +306,7 @@ static void asyninit()
 		swputs(asynhost);
 		swputs(" ...");
 		Vid_Present();
-		commconnect(asynhost);
+		swNetInitConnect(asynhost);
 		player = 1;
 	} else {
 		fprintf(stderr, "unknown asynmode mode\n");
@@ -314,7 +316,7 @@ static void asyninit()
 
 #endif
 
-void init1asy()
+bool init1asy()
 {
 #ifndef TCPIP
 	fprintf(stderr, "TCP/IP support not compiled into binary!\n");
@@ -323,10 +325,14 @@ void init1asy()
 	asyninit();
 	clrprmpt();
 	swputs("        Waiting for other player");
-	synchronize();
+	if (!synchronize())
+	{
+		return false;
+	}
 
 	currgame = &swgames[0];
 #endif
+	return true;
 }
 
 

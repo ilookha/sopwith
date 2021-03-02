@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2021 Illya Loshchinin
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -14,28 +14,18 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------
 
-// config.h for MSVC build
+#pragma once
 
-/* version */
+/** Connect to the host, fail immediately if no connection could be made. */
+void swNetInitConnect(char const* host);
+/** Block and listen for incoming connections, until a client connection is established. */
+void swNetInitHost();
 
-#define PACKAGE_VERSION "1.8.2"
-#define PACKAGE_STRING "SDL Sopwith " PACKAGE_VERSION
+/** Receive a single byte. Return -1 if no data was received (no client connection on the server), or the number of bytes received (1) otherwise. */
+int swNetReceive();
+/** Send a single byte. */
+void swNetSend(unsigned char payload);
 
-#define stricmp _stricmp
-#define strnicmp _strnicmp
-
-/* TCP/IP support */
-
-#define TCPIP
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.1  2003/06/16 02:13:57  fraggle
-// Add some stuff for MSVC support
-//
-
-//---------------------------------------------------------------------------
-
+void swNetShutdown();

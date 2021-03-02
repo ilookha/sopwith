@@ -920,7 +920,12 @@ void swinitlevel()
         Vid_GetGameKeys();
 
 	if (playmode == PLAYMODE_ASYNCH)
-		init1asy();
+	{
+		if (!init1asy())
+		{
+			swrestart();
+		}
+	}
 
 	// sdh: dont carry hud splats forward from previous games
 
@@ -977,7 +982,7 @@ void swrestart()
 	int inc;
 	int time;
 		
-	if (consoleplayer->ob_endsts == WINNER) {
+	if (consoleplayer != nullptr && consoleplayer->ob_endsts == WINNER) {
 		ob = &nobjects[player];
 		inc = 0;
 

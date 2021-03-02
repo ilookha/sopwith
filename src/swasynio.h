@@ -31,7 +31,7 @@ extern char asynhost[128];
 
 extern void asynput(int movekey);
 extern char *asynclos(bool update);
-extern void init1asy();
+extern bool init1asy();
 extern void init2asy();
 extern void asynupdate(void);
 
