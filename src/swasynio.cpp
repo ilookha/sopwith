@@ -125,7 +125,8 @@ void asynupdate(void)
 
 	if (!swNetIsConnected())
 	{
-		swend("DISCONNECTED", true);
+		fprintf(stderr, "DISCONNECTED\n");
+		swrestart();
 		return;
 	}
 

@@ -1,3 +1,7 @@
+v1.9.0
+* Reimplemented TCP communications using SDL2_net, to cover both Unix and Windows.
+* Removed "network TCP loopback" option, as local connection already covers it.
+
 v1.8.2
 * Fixed title music being much slower than it should.
 * Game output maintains its 16:10 aspect ratio when resizing the window.
