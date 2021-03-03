@@ -8,7 +8,7 @@
 
 * Uses SDL, so will run on most modern operating systems
 * (in progress) GNOME port
-* Pseudo-functional networking
+* TCP networking using SDL_net
 * PC speaker emulation!
 
 # More Info
