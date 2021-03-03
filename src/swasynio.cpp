@@ -123,6 +123,12 @@ void asynupdate(void)
 
 	i = try_readshort();
 
+	if (!swNetIsConnected())
+	{
+		swend("DISCONNECTED", true);
+		return;
+	}
+
 	if (i >= 0) {
 		int netplayer;
 
@@ -207,92 +213,10 @@ static bool synchronize()
 	return true;
 }
 
-// setup tcp loop
-
-static void tcploop_connect()
-{
-	int time;
-
-	clrprmpt();
-	swputs("  Attempting to connect to\n  ");
-	swputs(asynhost);
-	swputs(" ...");
-	Vid_Present();
-	
-	swNetInitConnect(asynhost);
-
-	clrprmpt();
-	swputs("  Connected, waiting for other player\n");
-	Vid_Present();
-
-	// for the first 5 seconds, listen to see if theres another player 
-	// there
-
-	for (time = Timer_GetMS() + 5000; Timer_GetMS() < time; ) {
-		int c;
-
-		if (ctlbreak()) {
-			fprintf(stderr, "tcploop_connect: user aborted\n");
-			exit(-1);
-		}
-		
-		c = swNetReceive();
-
-		if (c >= 0) {
-			if (c == '?') {
-				swNetSend('!');
-				player = 1;
-				return;
-			} else {
-				fprintf(stderr, 
-					"tcploop_connect: invalid"
-					"char recieved\n");
-				exit(-1);
-			}
-		}
-	}
-
-	// now send a ? every second until we get a ! response
-
-	time = Timer_GetMS() + 1000;
-
-        for (;;) {
-		int c;
-
-		if (ctlbreak()) {
-			fprintf(stderr, "tcploop_connect: user aborted\n");
-			exit(-1);
-		}
-
-		c = swNetReceive();
-
-		if (c >= 0) {
-			if (c == '!') {
-				player = 0;
-				return;
-			} else {
-				fprintf(stderr, 
-					"tcploop_connect: invalid"
-					"char recieved\n");
-				exit(-1);
-			}
-		}
-	
-
-		if (Timer_GetMS() > time) {
-			swNetSend('?');
-			time = Timer_GetMS() + 1000;
-		}
-	}
-}
-
 // setup connection
-
 static bool asyninit()
 {
-	if (asynmode == ASYN_TCPLOOP) {
-		tcploop_connect();
-	} else if (asynmode == ASYN_LISTEN) {
+	if (asynmode == ASYN_LISTEN) {
 		swtitln();
 		clrprmpt();
 		swputs("  Listening for connection...");

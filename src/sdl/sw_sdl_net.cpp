@@ -29,9 +29,11 @@ static const Uint16 SW_NET_DEFAULT_PORT = 3847;
 static const int SW_NET_MAX_ADDRESS_LENGTH = 17;
 
 static bool g_isHost = false;
-static IPaddress g_netIpAddress;
-static TCPsocket g_netMainSocket = nullptr;
-static TCPsocket g_netClientSocket = nullptr;
+static bool g_hasErrors = false;
+static IPaddress g_ipAddress;
+static TCPsocket g_serverListenSocket = nullptr; // Server-side socket that listens for incoming connections
+static TCPsocket g_serverClientSocket = nullptr; // Server-side socket representing the client connection
+static TCPsocket g_clientServerSocket = nullptr; // Client-side socket representing the server connection
 static SDLNet_SocketSet g_netPollSocketSet;
 
 bool swNetInitConnect(char const* host)
@@ -43,6 +45,7 @@ bool swNetInitConnect(char const* host)
 	}
 
 	g_isHost = false;
+	g_hasErrors = false;
 
 	Uint16 port = SW_NET_DEFAULT_PORT;
 	char hostname[SW_NET_MAX_ADDRESS_LENGTH];
@@ -66,14 +69,14 @@ bool swNetInitConnect(char const* host)
 		strcpy(hostname, host);
 	}
 
-	if (SDLNet_ResolveHost(&g_netIpAddress, hostname, port) != 0)
+	if (SDLNet_ResolveHost(&g_ipAddress, hostname, port) != 0)
 	{
 		printf("SDLNet_ResolveHost error: %s\n", SDLNet_GetError());
 		return false;
 	}
 
-	g_netMainSocket = SDLNet_TCP_Open(&g_netIpAddress);
-	if (g_netMainSocket == nullptr)
+	g_clientServerSocket = SDLNet_TCP_Open(&g_ipAddress);
+	if (g_clientServerSocket == nullptr)
 	{
 		printf("SDLNet_TCP_Open error: %s\n", SDLNet_GetError());
 		return false;
@@ -82,11 +85,13 @@ bool swNetInitConnect(char const* host)
 	g_netPollSocketSet = SDLNet_AllocSocketSet(1);
 	if (g_netPollSocketSet == nullptr)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_AllocSocketSet error: %s\n", SDLNet_GetError());
 		return false;
 	}
-	if (SDLNet_TCP_AddSocket(g_netPollSocketSet, g_netMainSocket) != 1)
+	if (SDLNet_TCP_AddSocket(g_netPollSocketSet, g_clientServerSocket) != 1)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_TCP_AddSocket error: %s\n", SDLNet_GetError());
 		return false;
 	}
@@ -105,38 +110,40 @@ bool swNetInitHost()
 	g_isHost = true;
 
 	Uint16 port = SW_NET_DEFAULT_PORT;
-	if (SDLNet_ResolveHost(&g_netIpAddress, nullptr, port) != 0)
+	if (SDLNet_ResolveHost(&g_ipAddress, nullptr, port) != 0)
 	{
 		printf("SDLNet_ResolveHost error: %s\n", SDLNet_GetError());
 		return false;
 	}
 
-	g_netMainSocket = SDLNet_TCP_Open(&g_netIpAddress);
-	if (g_netMainSocket == nullptr)
+	g_serverListenSocket = SDLNet_TCP_Open(&g_ipAddress);
+	if (g_serverListenSocket == nullptr)
 	{
 		printf("SDLNet_TCP_Open error: %s\n", SDLNet_GetError());
 		return false;
 	}
 
 	// Block until a client is connected
-	while (g_netClientSocket == nullptr)
+	while (g_serverClientSocket == nullptr)
 	{
-		g_netClientSocket = SDLNet_TCP_Accept(g_netMainSocket);
 		if (ctlbreak())
 		{
 			printf("Connection aborted by user\n");
 			return false;
 		}
+		g_serverClientSocket = SDLNet_TCP_Accept(g_serverListenSocket);
 	}
 
 	g_netPollSocketSet = SDLNet_AllocSocketSet(1);
 	if (g_netPollSocketSet == nullptr)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_AllocSocketSet error: %s\n", SDLNet_GetError());
 		return false;
 	}
-	if (SDLNet_TCP_AddSocket(g_netPollSocketSet, g_netClientSocket) != 1)
+	if (SDLNet_TCP_AddSocket(g_netPollSocketSet, g_serverClientSocket) != 1)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_TCP_AddSocket error: %s\n", SDLNet_GetError());
 		return false;
 	}
@@ -154,8 +161,9 @@ int swNetReceive()
 		return -1;
 	}
 
-	if (SDLNet_TCP_Recv(g_isHost ? g_netClientSocket : g_netMainSocket, &payload, 1) != 1)
+	if (SDLNet_TCP_Recv(g_isHost ? g_serverClientSocket : g_clientServerSocket, &payload, 1) != 1)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_TCP_Recv error: %s\n", SDLNet_GetError());
 	}
 
@@ -164,14 +172,20 @@ int swNetReceive()
 
 void swNetSend(unsigned char payload)
 {
-	if ((g_isHost && g_netClientSocket == nullptr) || (!g_isHost && g_netMainSocket == nullptr))
+	if ((g_isHost && g_serverClientSocket == nullptr) || (!g_isHost && g_clientServerSocket == nullptr))
 	{
 		return;
 	}
-	if (SDLNet_TCP_Send(g_isHost ? g_netClientSocket : g_netMainSocket, &payload, 1) < 1)
+	if (SDLNet_TCP_Send(g_isHost ? g_serverClientSocket : g_clientServerSocket, &payload, 1) < 1)
 	{
+		g_hasErrors = true;
 		printf("SDLNet_TCP_Send error: %s\n", SDLNet_GetError());
 	}
+}
+
+bool swNetIsConnected()
+{
+	return (g_serverClientSocket != nullptr || g_clientServerSocket != nullptr) && !g_hasErrors;
 }
 
 void swNetShutdown()
@@ -182,19 +196,26 @@ void swNetShutdown()
 		g_netPollSocketSet = nullptr;
 	}
 
-	if (g_netClientSocket != nullptr)
+	if (g_serverClientSocket != nullptr)
 	{
-		SDLNet_TCP_Close(g_netClientSocket);
-		g_netClientSocket = nullptr;
+		SDLNet_TCP_Close(g_serverClientSocket);
+		g_serverClientSocket = nullptr;
 	}
 
-	if (g_netMainSocket != nullptr)
+	if (g_serverListenSocket != nullptr)
 	{
-		SDLNet_TCP_Close(g_netMainSocket);
-		g_netMainSocket = nullptr;
+		SDLNet_TCP_Close(g_serverListenSocket);
+		g_serverListenSocket = nullptr;
+	}
+
+	if (g_clientServerSocket != nullptr)
+	{
+		SDLNet_TCP_Close(g_clientServerSocket);
+		g_clientServerSocket = nullptr;
 	}
 
 	g_isHost = false;
+	g_hasErrors = false;
 
 	SDLNet_Quit();
 }

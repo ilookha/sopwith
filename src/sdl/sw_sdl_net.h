@@ -28,4 +28,7 @@ int swNetReceive();
 /** Send a single byte. */
 void swNetSend(unsigned char payload);
 
+/** Check if there's a valid client-server connection. */
+bool swNetIsConnected();
+
 void swNetShutdown();

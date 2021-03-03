@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 
 #include <ctype.h>
+#include <string.h>
 
 #include "video.h"
 
@@ -180,8 +181,12 @@ static bool gethost()
 {
 	clrprmpt();
 
-	swputs("Enter Remote Hostname/IP:\n");
+	swputs("Enter Remote Hostname/IP (empty=local):\n");
 	swgets(asynhost, sizeof(asynhost) - 3);
+	if (asynhost[0] == 0)
+	{
+		strcpy(asynhost, "127.0.0.1");
+	}
 
 	return 1;
 }
@@ -192,9 +197,8 @@ static bool getnet()
 {
 	for (;;) {
 		clrprmpt();
-		swputs("Key: L - listen for connection\n");
-		swputs("     C - connect to remote host\n");
-		swputs("     T - connect to TCP loop\n");
+		swputs("Key: H - host a game\n");
+		swputs("     J - join a game\n");
 
 		Vid_Present();
 
@@ -204,15 +208,11 @@ static bool getnet()
 			swend(NULL, false);
 
 		switch (toupper(swgetc() & 0xff)) {
-		case 'L':
+		case 'H':
 			asynmode = ASYN_LISTEN;
 			return 1;
-		case 'C':
+		case 'J':
 			asynmode = ASYN_CONNECT;
-			gethost();
-			return 1;
-		case 'T':
-			asynmode = ASYN_TCPLOOP;
 			gethost();
 			return 1;
 		case 27:
