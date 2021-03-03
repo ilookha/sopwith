@@ -270,7 +270,10 @@ int swmain(int argc, char *argv[])
                         skip_time = 0;
 		}
 
-		asynupdate();
+		if (playmode == PLAYMODE_ASYNCH)
+		{
+			asynupdate();
+		}
 		swsndupdate();
 
 		/* if we have all the tic commands we need, we can move */

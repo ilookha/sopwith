@@ -149,7 +149,7 @@ int swNetReceive()
 	unsigned char payload = 0;
 	// Assuming the socket set contains only a single socket (1vs1 game)
 	// Poll the socket set without waiting and return -1 if there's no data
-	if (SDLNet_CheckSockets(g_netPollSocketSet, 0) != 1)
+	if (g_netPollSocketSet == nullptr || SDLNet_CheckSockets(g_netPollSocketSet, 0) != 1)
 	{
 		return -1;
 	}
@@ -164,7 +164,7 @@ int swNetReceive()
 
 void swNetSend(unsigned char payload)
 {
-	if (g_isHost && g_netClientSocket == nullptr)
+	if ((g_isHost && g_netClientSocket == nullptr) || (!g_isHost && g_netMainSocket == nullptr))
 	{
 		return;
 	}
