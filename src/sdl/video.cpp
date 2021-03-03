@@ -56,7 +56,7 @@ static bool initted = 0;
 static SDL_Window *window = NULL;
 static SDL_Rect windowRect;
 static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
-static SDL_Surface *tmpsutface = NULL;
+static SDL_Surface *tmpsurface = NULL;
 static SDL_Palette *palette;
 
 // convert a sopsym_t into a surface
@@ -100,10 +100,10 @@ void Vid_Present()
 
 	screen = SDL_GetWindowSurface(window);
 	SDL_UnlockSurface(screenbuf);
-	if(0 != SDL_BlitSurface(screenbuf, NULL, tmpsutface, NULL)) {
+	if(0 != SDL_BlitSurface(screenbuf, NULL, tmpsurface, NULL)) {
 		printf("SDL_BlitSurface failed: %s\n", SDL_GetError());
 	}
-	if(0 != SDL_BlitScaled(tmpsutface, NULL, screen, &windowRect)) {
+	if(0 != SDL_BlitScaled(tmpsurface, NULL, screen, &windowRect)) {
 		printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
 	}
 	SDL_LockSurface(screenbuf);
@@ -151,7 +151,11 @@ static void set_icon(sopsym_t *sym)
 
 static void Vid_UnsetMode()
 {
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	if (window != nullptr)
+	{
+		SDL_DestroyWindow(window);
+		window = nullptr;
+	}
 }
 
 static void Vid_SetMode()
@@ -162,13 +166,6 @@ static void Vid_SetMode()
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
-
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("failed\n");
-		fprintf(stderr, "Unable to initialise video subsystem: %s\n",
-				SDL_GetError());
-		exit(-1);
-	}
 
 	w = SCR_WDTH;
 	h = SCR_HGHT;
@@ -211,7 +208,18 @@ void Vid_Shutdown(void)
 
 	Vid_UnsetMode();
 
-	SDL_FreeSurface(screenbuf);
+	if (screenbuf != nullptr)
+	{
+		SDL_FreeSurface(screenbuf);
+		screenbuf = nullptr;
+	}
+	if (tmpsurface != nullptr)
+	{
+		SDL_FreeSurface(tmpsurface);
+		tmpsurface = nullptr;
+	}
+
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
 	initted = 0;
 }
@@ -223,13 +231,20 @@ void Vid_Init()
 
 	fflush(stdout);
 
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		fprintf(stderr, "Unable to initialise video subsystem: %s\n", SDL_GetError());
+		exit(1);
+	}
+
 	screenbuf = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 8,
-	                                 0, 0, 0, 0);
-	tmpsutface = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 32,
-	                                  0, 0, 0, 0);
-	if (!palette) {
+		0, 0, 0, 0);
+	tmpsurface = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 32,
+		0, 0, 0, 0);
+	if (!palette)
+	{
 		palette = SDL_AllocPalette(256);
-		SDL_SetPaletteColors(palette, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
+		SDL_SetPaletteColors(palette, cga_pal, 0, sizeof(cga_pal) / sizeof(*cga_pal));
 	}
 	SDL_SetSurfacePalette(screenbuf, palette);
 	vid_vram = (unsigned char*)screenbuf->pixels;
